@@ -1,0 +1,40 @@
+var sourcel = new ol.source.OSM();
+var osmLayer = new ol.layer.Tile({source: sourcel});
+
+
+
+
+			function init(){
+				var view = new ol.View({
+					center: ol.proj.fromLonLat([115.44,-33.56]),
+					zoom:10
+					
+				});
+
+
+				var map = new ol.Map({
+					target: 'map',
+					controls: ol.control.defaults().extend([
+						new ol.control.ScaleLine({
+							units: 'metric'})
+						]),
+					view: view
+				});
+var source2 = new ol.source.TileWMS({
+					url: 'http://services.ga.gov.au/gis/services/NEXIS_Residential_Dwelling_Density/MapServer/WMSServer',
+				params: {'Layers': 'Number_of_residential_dwellings_per_2km'  }});
+				
+				var popLayer = new ol.layer.Tile({source: source2});
+				
+				map.addLayer(osmLayer)
+				map.addLayer(popLayer);
+			
+			}
+			function layerVis (value) {
+				if (value == "osmLayer") {
+					osmLayer.setVisible(document.getElementById("1").checked);
+				}
+				else if (value == "popLayer") {
+					popLayer.setVisible(document.getElementById("2").checked);
+				}
+			}
